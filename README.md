@@ -1,2 +1,2 @@
 #!/bin/bash
-This is an alx-system engineering-devops
+0. Where am I?
