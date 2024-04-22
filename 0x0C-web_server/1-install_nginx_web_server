@@ -2,8 +2,19 @@
 # This script installs nginx on a server that listens on port 80
 # returns a page with the string Hello world
 
-sudo apt-get -y update
-sudo apt-get -y install nginx
-echo "Hello World!" | sudo tee /var/www/html/index.html
-sudo sed -i '/server_name _;/a location /redirect_me {\nreturn 301 https://www.youtube.com/;\n}' /etc/nginx/sites-available/default
-sudo nginx -s reload
+apt-get -y update
+apt-get -y install nginx
+
+touch /var/www/html/index.html
+echo "Hello World!" > /var/www/html/index.html
+
+printf %s "server {
+    listen              80 default_server;
+    listen              [::]:80 default_server;
+
+    root                /var/www/html;
+    index               index.html index.htm index.nginx-debian.html;
+}
+" > /etc/nginx/sites-available/default
+
+service nginx restart
