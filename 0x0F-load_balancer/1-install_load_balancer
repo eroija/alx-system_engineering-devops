@@ -6,6 +6,9 @@
 # [STUDENT_ID]-web-01 and [STUDENT_ID]-web-02.
 
 
+sudo apt-get -y update
+sudo apt-get -y install haproxy
+
 echo \
 "
 frontend lb-frontend
