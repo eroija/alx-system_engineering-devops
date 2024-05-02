@@ -6,24 +6,48 @@
 # [STUDENT_ID]-web-01 and [STUDENT_ID]-web-02.
 
 
-sudo apt-get -y update
+sudo apt-get install -y haproxy
 
-sudo apt-get -y install haproxy
+echo "ENABLED=1" >> /etc/default/haproxy
+mv /etc/haproxy/haproxy.cfg{,.original}
+touch /etc/haproxy/haproxy.cfg
 
-sudo service haproxy start
-sudo cp -a /etc/haproxy/haproxy.cfg{,.original}
+printf %s "global
+    log 127.0.0.1 local0 notice
+    maxconn 2000
+    user haproxy
+    group haproxy
 
-echo '
-frontend haproxy_balancer
-	bind *:80
-	mode http
-	default_backend myservers
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    retries 3
+    option redispatch
+    timeout connect  5000
+    timeout client  30000
+    timeout server  30000
+    errorfile 400 /etc/haproxy/errors/400.http
+    errorfile 403 /etc/haproxy/errors/403.http
+    errorfile 408 /etc/haproxy/errors/408.http
+    errorfile 500 /etc/haproxy/errors/500.http
+    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
+    errorfile 504 /etc/haproxy/errors/504.http
 
-backend myservers
-	balance roundrobin
-	server 327055-web-01 100.26.209.142:80 check
-	server 327055-web-02 54.158.214.70:80 check' |
-sudo tee -a /etc/haproxy/haproxy.cfg
+frontend http-in
+    timeout client  30000
+    bind 0:80
+    default_backend servers
 
-echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+backend servers
+    timeout connect  3000
+    timeout server  30000
+    balance roundrobin
+    server 313082-web-01 100.25.140.208:80 check
+    server 313082-web-02 54.146.74.167:80 check
+
+" >> /etc/haproxy/haproxy.cfg
+
 sudo service haproxy restart
