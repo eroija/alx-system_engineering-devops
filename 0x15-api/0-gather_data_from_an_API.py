@@ -4,11 +4,11 @@ This module provides functionality to fetch and display the TODO list
 progress for an employee from a REST API using their employee ID.
 """
 import requests
-from sys import argv
+import sys
 
 
 if __name__ == '__main__':
-    employee_id = argv[1]
+    employee_id = sys.argv[1]
 
     users_url = 'https://jsonplaceholder.typicode.com/users/{}'.format(
                  employee_id)
