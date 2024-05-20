@@ -27,6 +27,6 @@ if __name__ == "__main__":
     with open("{}.csv".format(user_id), mode='w', newline='') as csvfile:
         for todo in todos:
             completed = todo.get('completed')
-            title_task = task.get('title')
+            title_task = todo.get('title')
             csvfile.write('"{}","{}","{}","{}"\n'.format(
-                user, user_name, completed, title_task))
+                user_id, username, completed, title_task))
