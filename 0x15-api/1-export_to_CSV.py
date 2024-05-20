@@ -25,12 +25,8 @@ if __name__ == "__main__":
     todos = todos_response.json()
 
     with open("{}.csv".format(user_id), mode='w', newline='') as csvfile:
-        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
-
-    for todo in todos:
-        writer.writerow([
-            user_id,
-            username,
-            todo.get('completed'),
-            todo.get('title')
-        ])
+        for todo in todos:
+            completed = todo.get('completed')
+            title_task = task.get('title')
+            csvfile.write('"{}","{}","{}","{}"\n'.format(
+                user, user_name, completed, title_task))
