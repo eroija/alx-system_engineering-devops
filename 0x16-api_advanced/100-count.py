@@ -1,13 +1,12 @@
 #!/usr/bin/python3
-"""100-count module"""
+"""a module that contains functions for working with reddit API."""
 import requests
 
 
 def count_words(subreddit, word_list, list_found=[], after=None):
     """
-    Recursive function that queries the Reddit API,
-    parses the title of all hot articles
-    prints a sorted count of given keywords
+    Recursive function queries Reddit API,
+    parses title of all hot articles, prints a sorted count of given keywords
     """
     url = 'http://www.reddit.com/r/{}/hot.json?after={}'.format(
         subreddit, after)
