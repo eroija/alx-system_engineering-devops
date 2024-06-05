@@ -1,4 +1,4 @@
-# Fix Apache server error 500 using puppet
+# Fix Apache server error using puppet
 
 exec { 'fix-wordpress' :
   command => 'sed -i s/phpp/php/g /var/www/html/wp-settings.php',
